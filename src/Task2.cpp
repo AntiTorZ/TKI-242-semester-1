@@ -26,7 +26,7 @@ namespace miit::algebra
 
 			for (size_t column = 0; column < result.columnsCount(); ++column)
 			{
-				if (result(static_cast<int>(row), static_cast<int>(column)) == maximumValue)
+				if (result(static_cast<size_t>(row), static_cast<size_t>(column)) == maximumValue)
 				{
 					containsMaximum = true;
 					break;
