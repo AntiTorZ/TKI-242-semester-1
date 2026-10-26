@@ -393,23 +393,12 @@ TEST(Task2Tests, RemovesAllRowsWhenEveryRowContainsMaximum)
 	Matrix matrix(2, 2);
 	const ConstantGenerator generator(5);
 
+	matrix.fill(generator);
+
 	Task2 task(matrix, generator);
-	task.Fill();
 
 	Matrix& result = task.Solve();
 
 	EXPECT_EQ(result.rowsCount(), static_cast<size_t>(0));
 	EXPECT_EQ(result.columnsCount(), static_cast<size_t>(0));
-}
-
-TEST(ExerciseTests, FillUsesGenerator)
-{
-	Matrix matrix(1, 2);
-	const ConstantGenerator generator(8);
-
-	Task1 task(matrix, generator);
-	task.Fill();
-
-	EXPECT_EQ(matrix(0, 0), 8);
-	EXPECT_EQ(matrix(0, 1), 8);
 }
