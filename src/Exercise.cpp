@@ -6,9 +6,4 @@ namespace miit::algebra
 		: OurMatrix(matrix), OurGenerator(generator)
 	{
 	}
-
-	void Exercise::Fill()
-	{
-		OurMatrix.fill(OurGenerator);
-	}
 }
