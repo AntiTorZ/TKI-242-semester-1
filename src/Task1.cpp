@@ -18,15 +18,15 @@ namespace miit::algebra
 
 			for (size_t i = 1; i < result.rowsCount(); ++i)
 			{
-				if (std::abs(result(static_cast<int>(i), static_cast<int>(j))) <
-					std::abs(result(static_cast<int>(minRow), static_cast<int>(j))))
+				if (std::abs(result(static_cast<size_t>(i), static_cast<size_t>(j))) <
+					std::abs(result(static_cast<size_t>(minRow), static_cast<size_t>(j))))
 				{
 					minRow = i;
 				}
 			}
 
-			result(static_cast<int>(minRow), static_cast<int>(j)) =
-				-result(static_cast<int>(minRow), static_cast<int>(j));
+			result(static_cast<size_t>(minRow), static_cast<size_t>(j)) =
+				-result(static_cast<size_t>(minRow), static_cast<size_t>(j));
 		}
 
 		return result;
