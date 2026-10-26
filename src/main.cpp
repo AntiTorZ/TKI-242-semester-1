@@ -21,9 +21,10 @@ enum MyEnum
 };
 
 /**
- * @brief Выбрать генератор для заполнения матрицы
+ * @brief Выбрать генератор, заполнить им матрицу и сразу решить оба задания
+ * @param matrix Матрица, которую заполняет выбранный генератор и над которой выполняются задания
  */
-std::unique_ptr<Generator> chooseGenerator();
+void chooseGenerator(Matrix& matrix);
 
 /**
  * @brief Точка входа в программу
@@ -43,30 +44,8 @@ int main()
 		std::cin >> columns;
 
 		Matrix matrix(rows, columns);
-		auto generator = chooseGenerator();
 
-		Task1 task1(matrix, *generator);
-		Task2 task2(matrix, *generator);
-
-		task1.Fill();
-
-		std::cout << "\nИсходная матрица:\n" << matrix;
-
-		Matrix result1 = task1.Solve();
-		std::cout << "\nПосле задания 1\n" << result1;
-
-		Matrix result2 = task2.Solve();
-
-		std::cout << "\nПосле задания 2\n";
-
-		if (result2.rowsCount() == 0 || result2.columnsCount() == 0)
-		{
-			std::cout << "Матрица пустая\n";
-		}
-		else
-		{
-			std::cout << result2;
-		}
+		chooseGenerator(matrix);
 	}
 	catch (const std::exception& e)
 	{
@@ -77,7 +56,7 @@ int main()
 }
 
 
-std::unique_ptr<Generator> chooseGenerator()
+void chooseGenerator(Matrix& matrix)
 {
 	int choice = 0;
 
@@ -89,6 +68,8 @@ std::unique_ptr<Generator> chooseGenerator()
 		<< "Ваш выбор: ";
 
 	std::cin >> choice;
+
+	std::unique_ptr<Generator> generator;
 
 	switch (choice)
 	{
@@ -107,26 +88,31 @@ std::unique_ptr<Generator> chooseGenerator()
 				std::cout << "Неверный ввод\n";
 				exit(1);
 			}
-			return std::make_unique<RandomGenerator>(min, max);
+
+			generator = std::make_unique<RandomGenerator>(min, max);
+			break;
 		}
 
 		case TWO:
 		{
-			return std::make_unique<IStreamGenerator>(std::cin);
+			generator = std::make_unique<IStreamGenerator>(std::cin);
+			break;
 		}
 
 		case THREE:
 		{
-			int value;
+			int value = 0;
 			std::cout << "Введите число: ";
 			std::cin >> value;
 
-			return std::make_unique<ConstantGenerator>(value);
+			generator = std::make_unique<ConstantGenerator>(value);
+			break;
 		}
 
 		case FOUR:
 		{
-			return std::make_unique<ZeroGenerator>();
+			generator = std::make_unique<ZeroGenerator>();
+			break;
 		}
 
 		default:
@@ -134,7 +120,28 @@ std::unique_ptr<Generator> chooseGenerator()
 			std::cout << "Неверный выбор\n";
 			exit(1);
 		}
-
 	}
 
+	matrix.fill(*generator);
+
+	Task1 task1(matrix, *generator);
+	Task2 task2(matrix, *generator);
+
+	std::cout << "\nИсходная матрица:\n" << matrix;
+
+	Matrix result1 = task1.Solve();
+	std::cout << "\nПосле задания 1\n" << result1;
+
+	Matrix result2 = task2.Solve();
+
+	std::cout << "\nПосле задания 2\n";
+
+	if (result2.rowsCount() == 0 || result2.columnsCount() == 0)
+	{
+		std::cout << "Матрица пустая\n";
+	}
+	else
+	{
+		std::cout << result2;
+	}
 }
