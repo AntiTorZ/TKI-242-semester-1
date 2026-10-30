@@ -174,12 +174,6 @@ namespace miit::algebra
 
 	int* Matrix::operator [] (const int row)
 	{
-		int currentRow = row;
-
-		if (currentRow < 0)
-		{
-			currentRow += static_cast<int>(rows);
-		}
 
 		if (currentRow < 0 || currentRow >= static_cast<int>(rows))
 		{
@@ -191,12 +185,6 @@ namespace miit::algebra
 
 	const int* Matrix::operator [] (const int row) const
 	{
-		int currentRow = row;
-
-		if (currentRow < 0)
-		{
-			currentRow += static_cast<int>(rows);
-		}
 
 		if (currentRow < 0 || currentRow >= static_cast<int>(rows))
 		{
