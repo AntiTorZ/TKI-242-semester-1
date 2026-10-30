@@ -124,20 +124,18 @@ namespace miit::algebra
 		Matrix operator * (const Matrix& other) const;
 
 		/**
-		* @brief Получить элемент матрицы по индексам
-		* @param row Индекс строки
-		* @param column Индекс столбца
-		* @return Ссылка на выбранный элемент матрицы
+		* @brief Получить строку матрицы для доступа к элементам по индексу вида matrix[i][j]
+		* @param row Индекс строки (поддерживаются отрицательные: -1 — последняя строка)
+		* @return Указатель на первый элемент строки
 		*/
-		int& operator () (const int row, const int column);
+		int* operator [] (const int row);
 
 		/**
-		* @brief Получить элемент неизменяемой матрицы по индексам
-		* @param row Индекс строки
-		* @param column Индекс столбца
-		* @return Константная ссылка на выбранный элемент матрицы
+		* @brief Получить строку неизменяемой матрицы для доступа к элементам по индексу
+		* @param row Индекс строки (поддерживаются отрицательные: -1 — последняя строка)
+		* @return Константный указатель на первый элемент строки
 		*/
-		const int& operator () (const int row, const int column) const;
+		const int* operator [] (const int row) const;
 
 		/**
 		* @brief Найти минимальное значение в матрице
