@@ -175,23 +175,23 @@ namespace miit::algebra
 	int* Matrix::operator [] (const int row)
 	{
 
-		if (currentRow < 0 || currentRow >= static_cast<int>(rows))
+		if (row < 0 || row >= static_cast<int>(rows))
 		{
 			ERROR("Выход за пределы матрицы");
 		}
 
-		return data[currentRow];
+		return data[row];
 	}
 
 	const int* Matrix::operator [] (const int row) const
 	{
 
-		if (currentRow < 0 || currentRow >= static_cast<int>(rows))
+		if (row < 0 || row >= static_cast<int>(rows))
 		{
 			ERROR("Выход за пределы матрицы");
 		}
 
-		return data[currentRow];
+		return data[row];
 	}
 
 	int& Matrix::minimum() const
