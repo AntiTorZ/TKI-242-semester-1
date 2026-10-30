@@ -172,33 +172,26 @@ namespace miit::algebra
 		return *this;
 	}
 
-	int& Matrix::operator () (const int row, const int column)
+	int* Matrix::operator [] (const int row)
 	{
-		return const_cast<int&>(static_cast<const Matrix&>(*this)(row, column));
+		return const_cast<int*>(static_cast<const Matrix&>(*this)[row]);
 	}
 
-	const int& Matrix::operator () (const int row, const int column) const
+	const int* Matrix::operator [] (const int row) const
 	{
 		int currentRow = row;
-		int currentColumn = column;
 
 		if (currentRow < 0)
 		{
 			currentRow += static_cast<int>(rows);
 		}
 
-		if (currentColumn < 0)
-		{
-			currentColumn += static_cast<int>(columns);
-		}
-
-		if (currentRow < 0 || currentRow >= static_cast<int>(rows) ||
-			currentColumn < 0 || currentColumn >= static_cast<int>(columns))
+		if (currentRow < 0 || currentRow >= static_cast<int>(rows))
 		{
 			ERROR("Выход за пределы матрицы");
 		}
 
-		return data[currentRow][currentColumn];
+		return data[currentRow];
 	}
 
 	int& Matrix::minimum() const
