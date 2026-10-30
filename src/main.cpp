@@ -1,5 +1,4 @@
 #include <iostream>
-#include <memory>
 
 #include "../include/Matrix.h"
 #include "../include/Generator.h"
@@ -25,6 +24,13 @@ enum MyEnum
  * @param matrix Матрица, которую заполняет выбранный генератор и над которой выполняются задания
  */
 void chooseGenerator(Matrix& matrix);
+
+/**
+ * @brief Заполнить матрицу заданным генератором и сразу решить оба задания
+ * @param matrix Матрица, над которой выполняются задания
+ * @param generator Конкретный генератор, выбранный пользователем
+ */
+void solveTasks(Matrix& matrix, const Generator& generator);
 
 /**
  * @brief Точка входа в программу
@@ -69,8 +75,6 @@ void chooseGenerator(Matrix& matrix)
 
 	std::cin >> choice;
 
-	std::unique_ptr<Generator> generator;
-
 	switch (choice)
 	{
 		case ONE:
@@ -89,14 +93,16 @@ void chooseGenerator(Matrix& matrix)
 				exit(1);
 			}
 
-			generator = std::make_unique<RandomGenerator>(min, max);
-			break;
+			const RandomGenerator generator(min, max);
+			solveTasks(matrix, generator);
+			return;
 		}
 
 		case TWO:
 		{
-			generator = std::make_unique<IStreamGenerator>(std::cin);
-			break;
+			const IStreamGenerator generator(std::cin);
+			solveTasks(matrix, generator);
+			return;
 		}
 
 		case THREE:
@@ -105,14 +111,16 @@ void chooseGenerator(Matrix& matrix)
 			std::cout << "Введите число: ";
 			std::cin >> value;
 
-			generator = std::make_unique<ConstantGenerator>(value);
-			break;
+			const ConstantGenerator generator(value);
+			solveTasks(matrix, generator);
+			return;
 		}
 
 		case FOUR:
 		{
-			generator = std::make_unique<ZeroGenerator>();
-			break;
+			const ZeroGenerator generator;
+			solveTasks(matrix, generator);
+			return;
 		}
 
 		default:
@@ -121,11 +129,15 @@ void chooseGenerator(Matrix& matrix)
 			exit(1);
 		}
 	}
+}
 
-	matrix.fill(*generator);
 
-	Task1 task1(matrix, *generator);
-	Task2 task2(matrix, *generator);
+void solveTasks(Matrix& matrix, const Generator& generator)
+{
+	matrix.fill(generator);
+
+	Task1 task1(matrix, generator);
+	Task2 task2(matrix, generator);
 
 	std::cout << "\nИсходная матрица:\n" << matrix;
 
