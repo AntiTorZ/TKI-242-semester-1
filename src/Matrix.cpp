@@ -174,7 +174,19 @@ namespace miit::algebra
 
 	int* Matrix::operator [] (const int row)
 	{
-		return const_cast<int*>(static_cast<const Matrix&>(*this)[row]);
+		int currentRow = row;
+
+		if (currentRow < 0)
+		{
+			currentRow += static_cast<int>(rows);
+		}
+
+		if (currentRow < 0 || currentRow >= static_cast<int>(rows))
+		{
+			ERROR("Выход за пределы матрицы");
+		}
+
+		return data[currentRow];
 	}
 
 	const int* Matrix::operator [] (const int row) const
